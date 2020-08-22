@@ -8,20 +8,20 @@ namespace Example.Grpc.Service.Repositories
 {
     public class InMemoryOrderRepository : IOrderRepository
     {
-        private static readonly IList<Order> Orders = new List<Order>();
+        private static readonly IDictionary<Guid, Order> Orders = new Dictionary<Guid, Order>();
 
         public Task CreateOrderAsync(Order order)
         {
             order.Id = Guid.NewGuid();
 
-            Orders.Add(order);
+            Orders.Add(order.Id, order);
 
             return Task.CompletedTask;
         }
 
         public Task<Order> GetOrderByIdAsync(Guid orderId)
         {
-            return Task.FromResult(Orders.FirstOrDefault(x => x.Id == orderId));
+            return Task.FromResult(Orders.FirstOrDefault(x => x.Key == orderId).Value);
         }
     }
 }
