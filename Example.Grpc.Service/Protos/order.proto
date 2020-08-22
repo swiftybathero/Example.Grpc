@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option csharp_namespace = "Example.Grpc.Service.Services";
+
+service Ordering {
+    rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
+}
+
+message CreateOrderRequest {
+    string customerName = 1;
+    double value = 2;
+}
+
+message CreateOrderResponse {
+    string orderId = 1;
+}
