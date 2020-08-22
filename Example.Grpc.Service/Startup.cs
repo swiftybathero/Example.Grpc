@@ -1,3 +1,4 @@
+using Example.Grpc.Service.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -27,6 +28,7 @@ namespace Example.Grpc.Service
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapGrpcService<OrderingService>();
                 endpoints.MapGet("/", async context =>
                 {
                     await context.Response.WriteAsync("Hello World!");
