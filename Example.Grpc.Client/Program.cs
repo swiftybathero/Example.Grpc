@@ -20,10 +20,21 @@ namespace Example.Grpc.Client
         {
             var createOrderRequest = new CreateOrderRequest
             {
-                Order = new NewOrder
+                Order = new Order
                 {
                     Value = 15.5,
-                    CustomerName = "Sample Customer Name"
+                    CustomerName = "Sample Customer Name",
+                    Items =
+                    {
+                        new OrderItem
+                        {
+                            Name = "First Item"
+                        },
+                        new OrderItem
+                        {
+                            Name = "Second Item"
+                        }
+                    }
                 }
             };
 
