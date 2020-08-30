@@ -6,6 +6,9 @@ using Example.Grpc.Service.Models;
 
 namespace Example.Grpc.Service.Repositories
 {
+    /// <summary>
+    /// Simple In-Memory implementation for demonstration purposes
+    /// </summary>
     public class InMemoryOrderRepository : IOrderRepository
     {
         private static readonly IDictionary<Guid, Order> Orders = new Dictionary<Guid, Order>();

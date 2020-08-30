@@ -14,8 +14,12 @@ namespace Example.Grpc.Service
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            // Registration of gRPC services
             services.AddGrpc();
-            services.AddScoped<IOrderRepository, InMemoryOrderRepository>();
+
+            // Scoped lifetime probably does not match in-memory implementation,
+            // but something that you should use for external persistence stores
+            services.AddScoped<IOrderRepository, InMemoryOrderRepository>(); 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -30,6 +34,7 @@ namespace Example.Grpc.Service
 
             app.UseEndpoints(endpoints =>
             {
+                // Registering endpoints for gRPC service
                 endpoints.MapGrpcService<OrderingService>();
                 endpoints.MapGet("/", async context =>
                 {
