@@ -13,6 +13,10 @@ namespace Example.Grpc.Service.Repositories
         public Task CreateOrderAsync(Order order)
         {
             order.Id = Guid.NewGuid();
+            foreach (var item in order.Items)
+            {
+                item.Id = Guid.NewGuid();
+            }
 
             Orders.Add(order.Id, order);
 
