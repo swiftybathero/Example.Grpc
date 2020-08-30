@@ -18,40 +18,33 @@ namespace Example.Grpc.Client
 
         static async Task Main(string[] args)
         {
-            Info("Creating an Order ...");
-
-            var newOrder = new NewOrder
-            {
-                Value = 15.5,
-                CustomerName = "Sample Customer Name"
-            };
-
-            var serviceUrl = Configuration.GetSection("OrderingServiceUrl").Value;
-
-            Info($"Calling gRPC service to create an Order: {serviceUrl}");
-
-            using var channel = GrpcChannel.ForAddress(serviceUrl);
-
-            var client = new Ordering.OrderingClient(channel);
             var createOrderRequest = new CreateOrderRequest
             {
-                Order = newOrder
+                Order = new NewOrder
+                {
+                    Value = 15.5,
+                    CustomerName = "Sample Customer Name"
+                }
             };
+
+            var serviceUrl = Configuration.GetValue<string>("OrderingServiceUrl");
+
+            using var channel = GrpcChannel.ForAddress(serviceUrl);
+            var client = new Ordering.OrderingClient(channel);
+
+            Info("Creating an Order ...");
             var createOrderResponse = await client.CreateOrderAsync(createOrderRequest);
 
-            Info($"Created Order with Id: {createOrderResponse.OrderId}");
-
-            Info($"Fetching Order with Id: {createOrderResponse.OrderId}");
-
+            Info($"Order created | OrderId: {createOrderResponse.OrderId}");
             var orderRequest = new GetOrderByIdRequest
             {
                 OrderId = createOrderResponse.OrderId
             };
 
+            Info($"Getting Order | OrderId: {orderRequest.OrderId}");
             var orderResponse = await client.GetOrderByIdAsync(orderRequest);
-            var order = orderResponse.Order;
 
-            Console.WriteLine($"Fetched Order: OrderId: {order.Id} | CustomerName: {order.CustomerName} | Value: {order.Value}");
+            Info($"Order found | {orderResponse}");
         }
 
         private static void Info(string message)
