@@ -1,6 +1,4 @@
 # Example.Grpc
-
-## Description
 Very basic sample implementation of gRPC Client and Service in .NET Core
 
 ## Purpose
